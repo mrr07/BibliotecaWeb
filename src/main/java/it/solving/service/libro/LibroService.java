@@ -22,4 +22,6 @@ public Set<Libro> listAll() throws Exception;
 	
 	public void setLibroDAO(LibroDAO libroDAO);
 	
+	public Set<Libro> findByExample(Libro libro) throws Exception;
+	
 }

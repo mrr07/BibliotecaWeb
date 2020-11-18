@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 import it.solving.dao.EntityManagerUtil;
 import it.solving.dao.utente.UtenteDAO;
@@ -293,5 +294,25 @@ public class UtenteServiceImpl implements UtenteService {
 			}
 
 		}
+
+	@Override
+	public Utente findByUserPass(String user, String pass) throws Exception {
+		// questo è come una connection
+		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+
+		try {
+
+			// uso l'injection per il dao
+			utenteDAO.setEntityManager(entityManager);
+
+			// eseguo quello che realmente devo fare
+			return utenteDAO.findByUserEPass(user, pass);
+
+		} catch (NoResultException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
+	
+}
 

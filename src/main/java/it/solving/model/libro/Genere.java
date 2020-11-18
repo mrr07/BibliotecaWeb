@@ -7,5 +7,12 @@ public enum Genere {
 	Fantascienza,
 	Storico,
 	Thriller,
-	Horror;
+	Horror,
+	EMPTY;
+	
+	@Override
+	public String toString() {
+        return this == EMPTY ? "" : this.name();
+    }
+
 }

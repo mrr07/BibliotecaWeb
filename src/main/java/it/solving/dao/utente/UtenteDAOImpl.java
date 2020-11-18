@@ -104,6 +104,14 @@ public class UtenteDAOImpl implements UtenteDAO {
 			
 	}
 
+	@Override
+	public Utente findByUserEPass(String user, String pass) throws Exception {
+		TypedQuery<Utente> query = entityManager.createQuery("select u FROM Utente u where u.username = ?1 and u.password = ?2",Utente.class);
+		query.setParameter(1, user);
+		query.setParameter(2, pass);
+		return query.getSingleResult();
+	}
+
 	
 
 	

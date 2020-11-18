@@ -160,4 +160,23 @@ public class LibroServiceImpl implements LibroService {
 
 	}
 
+	@Override
+	public Set<Libro> findByExample(Libro libro) throws Exception {
+		// questo è come una connection
+		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+
+		try {
+			// uso l'injection per il dao
+			libroDAO.setEntityManager(entityManager);
+
+			// eseguo quello che realmente devo fare
+			return libroDAO.findByExample(libro);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+
+	}
+
 }

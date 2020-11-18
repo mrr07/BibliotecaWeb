@@ -36,4 +36,6 @@ public interface UtenteService  {
 	//per injection
 	public void setUtenteDAO(UtenteDAO utenteDAO);
 
+	public Utente findByUserPass(String user, String pass) throws Exception;
+
 }

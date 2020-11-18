@@ -1,9 +1,9 @@
 package it.solving;
 
 import java.util.HashSet;
+import java.util.ListResourceBundle;
 import java.util.Set;
 
-import org.w3c.dom.stylesheets.LinkStyle;
 
 import it.solving.dao.EntityManagerUtil;
 import it.solving.model.autore.Autore;
@@ -25,6 +25,7 @@ public class Main {
 		RuoloService ruoloService = MyServiceFactory.getRuoloServiceInstance();
 		AutoreService autoreService = MyServiceFactory.getAutoreServiceInstance();
 		LibroService libroService = MyServiceFactory.getLibroServiceInstance();
+		
 		
 		try {
 			
@@ -123,6 +124,15 @@ public class Main {
 			Autore autoreDaDB2 = autoreService.findByID(2L);
 			Autore autoreDaDB3 = autoreService.findByID(3L);
 			
+			Libro libroDaDB = libroService.findByID(1L);
+			
+			for(Libro l : libroService.findByExample(libroDaDB)) {
+				System.out.println(l);
+			}
+			
+			
+			
+			
 			
 			
 			
@@ -135,6 +145,7 @@ public class Main {
 		} finally {
 			EntityManagerUtil.shutdown();
 		}
+		
 	}
 	
 

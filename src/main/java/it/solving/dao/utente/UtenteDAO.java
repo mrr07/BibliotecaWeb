@@ -16,5 +16,7 @@ public interface UtenteDAO extends IBaseDAO<Utente> {
 	public Utente findByUsername(Utente utente) throws Exception;
 	
 	public int setStatoUtente(Utente utente, StatoUtente stato) throws Exception;
+	
+	public Utente findByUserEPass(String user, String pass) throws Exception;
 
 }
