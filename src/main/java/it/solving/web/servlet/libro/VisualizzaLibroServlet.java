@@ -1,11 +1,6 @@
 package it.solving.web.servlet.libro;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,23 +8,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import it.solving.model.autore.Autore;
-import it.solving.model.libro.Genere;
 import it.solving.model.utente.Utente;
 import it.solving.service.MyServiceFactory;
 import it.solving.service.autore.AutoreService;
 
 /**
- * Servlet implementation class PreparaInserimentoLibroServlet
+ * Servlet implementation class VisualizzaLibroServlet
  */
-@WebServlet("/PreparaInserimentoLibroServlet")
-public class PreparaInserimentoLibroServlet extends HttpServlet {
+@WebServlet("/VisualizzaLibroServlet")
+public class VisualizzaLibroServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public PreparaInserimentoLibroServlet() {
+    public VisualizzaLibroServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -39,6 +32,7 @@ public class PreparaInserimentoLibroServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+
 		HttpSession session = request.getSession();
 		AutoreService autoreService = MyServiceFactory.getAutoreServiceInstance();
 		Utente utente = (Utente)session.getAttribute("utenteInSessione");
@@ -50,29 +44,31 @@ public class PreparaInserimentoLibroServlet extends HttpServlet {
 			String tramaCercata = request.getParameter("tramaCercata");
 			String autoreCercato = request.getParameter("autoreCercato");
 			
+			String titoloDaVisualizzare = request.getParameter("titoloDaVisualizzare");
+			String autoreDaVisualizzare = request.getParameter("autoreDaVisualizzare");
+			String genereDaVisualizzare = request.getParameter("genereDaVisualizzare");
+			String tramaDaVisualizzare = request.getParameter("tramaDaVisualizzare");
 			
-			//trasformo l'enum genere in una lista 
-			List<String> listaGeneri = Stream.of(Genere.values()).map(Enum::name).collect(Collectors.toList());
-			Set<Autore> listaAutori;
-			try {
-				listaAutori = autoreService.listAll();
-				request.setAttribute("listaAutori", listaAutori);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			String idLibro = request.getParameter("LibroDaVisualizzare");
 			
-			// parametri di ricerca da passare
+			
+			
+			request.setAttribute("LibroDaVisualizzare", idLibro);
+			request.setAttribute("titoloDaVisualizzare", titoloDaVisualizzare);
+			request.setAttribute("genereDaVisualizzare", genereDaVisualizzare);
+			request.setAttribute("tramaDaVisualizzare", tramaDaVisualizzare);
+			request.setAttribute("autoreDaVisualizzare", autoreDaVisualizzare);
+			
+			
 			request.setAttribute("titoloCercato", titoloCercato);
 			request.setAttribute("tramaCercata", tramaCercata);
 			request.setAttribute("genereCercato", genereCercato);
 			request.setAttribute("autoreCercato", autoreCercato);
 			
-			request.setAttribute("listaGeneri", listaGeneri);
-			request.getRequestDispatcher("inserisciLibro.jsp").forward(request, response);
-			
+			request.getRequestDispatcher("visualizzaLibro.jsp").forward(request, response);
 		}
 	}
+
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */

@@ -44,12 +44,7 @@ public class RicercaLibroServlet extends HttpServlet {
 		if(utente == null) {
 			request.getRequestDispatcher("index.jsp").forward(request, response);
 		}
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		AutoreService autoreService = MyServiceFactory.getAutoreServiceInstance();
 		LibroService libroService = MyServiceFactory.getLibroServiceInstance();
 		
@@ -58,7 +53,7 @@ public class RicercaLibroServlet extends HttpServlet {
 		String trama = request.getParameter("trama");
 		String autore = request.getParameter("autore");
 		Genere genereDaPassare;
-		if(genere == null){
+		if(genere == null || genere == ""){
 			genereDaPassare = Genere.EMPTY;
 		} else {
 			genereDaPassare = Genere.valueOf(genere);
@@ -70,7 +65,7 @@ public class RicercaLibroServlet extends HttpServlet {
 //		System.out.println(autore);
 		
 		Long idAutore = null;
-		if(autore == null) {
+		if(autore == null || autore == "") {
 			idAutore = null;
 		} else {
 			idAutore = Long.parseLong(autore);
@@ -79,7 +74,7 @@ public class RicercaLibroServlet extends HttpServlet {
 		Set<Libro> risultato = new HashSet<>();
 		Autore autoreDaCercare = new Autore();
 		try {
-			if(autore == null) {
+			if(autore == null || autore == "") {
 				autoreDaCercare.setId(null);
 			} else {
 				autoreDaCercare = autoreService.findByID(idAutore);
@@ -95,6 +90,74 @@ public class RicercaLibroServlet extends HttpServlet {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+		
+		// parametri di ricerca da passare
+		request.setAttribute("titoloCercato", titolo);
+		request.setAttribute("tramaCercata", trama);
+		request.setAttribute("genereCercato", genere);
+		request.setAttribute("autoreCercato", autore);
+		
+		
+		request.setAttribute("listaLibri", risultato);
+		request.getRequestDispatcher("risultatoRicercaLibro.jsp").forward(request, response);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		AutoreService autoreService = MyServiceFactory.getAutoreServiceInstance();
+		LibroService libroService = MyServiceFactory.getLibroServiceInstance();
+		
+		String titolo = request.getParameter("titolo");
+		String genere = request.getParameter("genere");
+		String trama = request.getParameter("trama");
+		String autore = request.getParameter("autore");
+		Genere genereDaPassare;
+		if(genere == null || genere == ""){
+			genereDaPassare = Genere.EMPTY;
+		} else {
+			genereDaPassare = Genere.valueOf(genere);
+		}
+		
+//		System.out.println(titolo);
+//		System.out.println(genereDaPassare);
+//		System.out.println(trama);
+//		System.out.println(autore);
+		
+		Long idAutore = null;
+		if(autore == null || autore == "") {
+			idAutore = null;
+		} else {
+			idAutore = Long.parseLong(autore);
+		}
+		Libro libroDaCercare = new Libro();
+		Set<Libro> risultato = new HashSet<>();
+		Autore autoreDaCercare = new Autore();
+		try {
+			if(autore == null || autore == "") {
+				autoreDaCercare.setId(null);
+			} else {
+				autoreDaCercare = autoreService.findByID(idAutore);
+			}
+			libroDaCercare.setTitolo(titolo);
+			libroDaCercare.setGenere(genereDaPassare);
+			libroDaCercare.setTrama(trama);
+			libroDaCercare.setAutore(autoreDaCercare);
+			
+			risultato = libroService.findByExample(libroDaCercare);
+			
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		// parametri di ricerca da passare
+		request.setAttribute("titoloCercato", titolo);
+		request.setAttribute("tramaCercata", trama);
+		request.setAttribute("genereCercato", genere);
+		request.setAttribute("autoreCercato", autore);
+		
 		
 		request.setAttribute("listaLibri", risultato);
 		request.getRequestDispatcher("risultatoRicercaLibro.jsp").forward(request, response);

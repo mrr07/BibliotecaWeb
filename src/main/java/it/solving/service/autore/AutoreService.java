@@ -19,5 +19,7 @@ public interface AutoreService {
 	public boolean rimuovi(Autore autore) throws Exception;
 	
 	public void setAutoreDAO(AutoreDAO autoreDAO);
+	
+	public Set<Autore> findByExample(Autore autore) throws Exception;
 
 }

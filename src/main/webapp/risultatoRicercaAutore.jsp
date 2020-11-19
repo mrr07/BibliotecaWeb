@@ -15,13 +15,11 @@
 <body>
 	<jsp:include page="./navbar.jsp" />
 	
-	<c:set var="titoloCercato"  value="${ titoloCercato }" />
-	<c:set var="tramaCercata" value="${ tramaCercata }" />
-	<c:set var="genereCercato" value="${ genereCercato }" />
-	<c:set var="autoreCercato" value="${ autoreCercato }" />
-	
-	
 	<main role="main" class="container">
+		
+		<c:set var="nomeAutoreCercato"  value="${ nomeAutoreCercato }" />
+		<c:set var="cognomeAutoreCercato"  value="${ cognomeAutoreCercato }" />
+		<c:set var="dataNascitaAutoreCercato"  value="${ dataNascitaAutoreCercato }" />
 	
 		<div class="alert alert-success alert-dismissible fade show ${successMessage==null?'d-none': ''}" role="alert">
 		  ${successMessage}
@@ -65,7 +63,7 @@
 		    </div>
 		    <div class='card-body'>
 		    	<c:if test="${admin == '1' || classic == '1'}">
-		    		<a class="btn btn-primary " href="PreparaInserimentoLibroServlet?titoloCercato=<c:out value = "${ titoloCercato }"/>&tramaCercata=<c:out value = "${ tramaCercata }"/>&genereCercato=<c:out value = "${ genereCercato }"/>&autoreCercato=<c:out value = "${ autoreCercato }"/>">Add New</a>
+		    		<a class="btn btn-primary" href="PreparaInserimentoAutoreServlet?nomeAutoreCercato=<c:out value = "${nomeAutoreCercato}"/>&cognomeAutoreCercato=<c:out value = "${cognomeAutoreCercato}"/>&dataNascitaAutoreCercato=<c:out value = "${dataNascitaAutoreCercato}"/>">Add New</a>
 		    	</c:if>
 		    	
 		    
@@ -74,32 +72,30 @@
 		                <thead>
 		                    <tr>
 		                        <th>Id</th>
-		                        <th>Titolo</th>
-		                        <th>Trama</th>
-		                        <th>Genere</th>
-		                        <th>Autore</th>
+		                        <th>Nome</th>
+		                        <th>Cognome</th>
+		                        <th>Data di Nascita</th>
 		                        <th>Azioni</th>
 		                    </tr>
 		                </thead>
 		                <tbody>
 		                	
-		                	<c:forEach items="${listaLibri}" var="libro" >
-         					
+		                	<c:forEach items="${listaAutori}" var="autore" >
+         						
          					<tr>
-		                        <td>${ libro.id }</td>
-		                        <td>${ libro.titolo }</td>
-		                        <td>${ libro.trama }</td>
-		                        <td>${ libro.genere }</td>
-		                        <td>${ libro.autore }</td>
+		                        <td>${ autore.id }</td>
+		                        <td>${ autore.nome }</td>
+		                        <td>${ autore.cognome }</td>
+		                        <td>${ autore.data_nascita }</td>
 		                        <td>
 		                        	 
 									<c:if test = "${admin == '1' || classic == '1'}">
-										<a class="btn  btn-sm btn-outline-secondary" href="VisualizzaLibroServlet?LibroDaVisualizzare=<c:out value = "${libro.id}"/>&titoloCercato=<c:out value = "${ titoloCercato }"/>&tramaCercata=<c:out value = "${ tramaCercata }"/>&genereCercato=<c:out value = "${ genereCercato }"/>&autoreCercato=<c:out value = "${ autoreCercato }"/>&titoloDaVisualizzare=<c:out value = "${ libro.titolo }"/>&tramaDaVisualizzare=<c:out value = "${ libro.trama }"/>&genereDaVisualizzare=<c:out value = "${ libro.genere }"/>&autoreDaVisualizzare=<c:out value = "${ libro.autore }"/>">Visualizza</a>
-										<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="PreparaAggiornaLibroServlet?LibroDaAggiornare=<c:out value = "${libro.id}"/>&titoloCercato=<c:out value = "${ titoloCercato }"/>&tramaCercata=<c:out value = "${ tramaCercata }"/>&genereCercato=<c:out value = "${ genereCercato }"/>&autoreCercato=<c:out value = "${ autoreCercato }"/>">Edit</a>
-										<a class="btn btn-outline-danger btn-sm" href="PreparaEliminazioneLibroServlet?LibroDaEliminare=<c:out value = "${libro.id}"/>&titoloCercato=<c:out value = "${ titoloCercato }"/>&tramaCercata=<c:out value = "${ tramaCercata }"/>&genereCercato=<c:out value = "${ genereCercato }"/>&autoreCercato=<c:out value = "${ autoreCercato }"/>">Delete</a>
+										<a class="btn  btn-sm btn-outline-secondary" href="ShowArticoloServlet?IdDaVisualizzare=<c:out value = "${item.id}"/>&ruoloUtente=<c:out value = "${ruolo}"/>">Visualizza</a>
+										<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="PrepareUpdateArticoloServlet?IdDaAggiornare=<c:out value = "${item.id}"/>&ruoloUtente=<c:out value = "${ruolo}"/>">Edit</a>
+										<a class="btn btn-outline-danger btn-sm" href="PreparaEliminazioneLibroServlet?LibroDaEliminare=<c:out value = "${libro.id}"/>">Delete</a>
 									</c:if>
 									<c:if test = "${guest == '1' && admin != '1' && classic != '1'}">
-										<a class="btn  btn-sm btn-outline-secondary" href="VisualizzaLibroServlet?LibroDaVisualizzare=<c:out value = "${libro.id}"/>">Visualizza</a>
+										<a class="btn  btn-sm btn-outline-secondary" href="ShowArticoloServlet?IdDaVisualizzare=<c:out value = "${item.id}"/>&ruoloUtente=<c:out value = "${ruolo}"/>">Visualizza</a>
 									</c:if>
 									
 								</td>

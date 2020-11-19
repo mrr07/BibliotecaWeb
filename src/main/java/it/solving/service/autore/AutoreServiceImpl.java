@@ -86,12 +86,8 @@ public class AutoreServiceImpl implements AutoreService {
 			autoreDAO.setEntityManager(entityManager);
 
 			// eseguo quello che realmente devo fare
-			if(autore.getLibri() == null || autore.getLibri().isEmpty()) {
-				System.out.println("Impossibile inserire l'autore!!");
-				return false;
-			} else {
-				autoreDAO.insert(autore);
-			}
+			
+			autoreDAO.insert(autore);
 			
 
 			entityManager.getTransaction().commit();
@@ -140,6 +136,26 @@ public class AutoreServiceImpl implements AutoreService {
 	public void setAutoreDAO(AutoreDAO autoreDAO) {
 		this.autoreDAO = autoreDAO;
 
+	}
+
+	@Override
+	public Set<Autore> findByExample(Autore autore) throws Exception {
+	
+		// questo è come una connection
+		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+
+		try {
+			// uso l'injection per il dao
+			autoreDAO.setEntityManager(entityManager);
+
+			// eseguo quello che realmente devo fare
+			return autoreDAO.findByExample(autore);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
 	}
 
 }

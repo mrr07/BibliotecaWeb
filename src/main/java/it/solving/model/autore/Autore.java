@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,6 +14,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import it.solving.model.libro.Libro;
 
@@ -30,6 +33,10 @@ public class Autore {
 	@Column(name = "cognome_autore")
 	private String cognome;
 	@Column(name = "data_nascita_autore")
+	
+	//inserimo nel DB il tipo date (yyyy-mm-dd)
+	@Basic
+	@Temporal(TemporalType.DATE)
 	private Date data_nascita;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "autore")
@@ -39,7 +46,7 @@ public class Autore {
 		super();
 	}
 
-	public Autore(String nome, String cognome, String data_nascita /*, Set<Libro> libri*/) {
+	public Autore(String nome, String cognome, String data_nascita) {
 		this.nome = nome;
 		this.cognome = cognome;
 		try {
@@ -47,7 +54,6 @@ public class Autore {
 		} catch (Exception e) {
 			System.out.println(e.getStackTrace());
 		}
-		//this.libri = libri;
 	}
 
 	public Long getId() {
@@ -79,11 +85,16 @@ public class Autore {
 	}
 
 	public void setData_nascita(String data_nascita) {
-		try {
+		if(data_nascita == "") {
+			this.data_nascita = null;
+		} else {
+			try {
 			this.data_nascita = new SimpleDateFormat("yyyy-MM-dd").parse(data_nascita); 
 		} catch (Exception e) {
 			System.out.println(e.getStackTrace());
 		}
+		}
+		
 	}
 
 	public Set<Libro> getLibri() {

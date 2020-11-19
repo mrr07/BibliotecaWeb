@@ -90,7 +90,7 @@
 									<c:if test = "${admin == '1' || classic == '1'}">
 										<a class="btn  btn-sm btn-outline-secondary" href="ShowArticoloServlet?IdDaVisualizzare=<c:out value = "${item.id}"/>&ruoloUtente=<c:out value = "${ruolo}"/>">Visualizza</a>
 										<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="PrepareUpdateArticoloServlet?IdDaAggiornare=<c:out value = "${item.id}"/>&ruoloUtente=<c:out value = "${ruolo}"/>">Edit</a>
-										<a class="btn btn-outline-danger btn-sm" href="PrepareDeleteArticoloServlet?IdDaEliminare=<c:out value = "${item.id}"/>&ruoloUtente=<c:out value = "${ruolo}"/>">Delete</a>
+										<a class="btn btn-outline-danger btn-sm" href="PreparaEliminazioneLibroServlet?LibroDaEliminare=<c:out value = "${libro.id}"/>&ruoloUtente=<c:out value = "${ruolo}"/>">Delete</a>
 									</c:if>
 									<c:if test = "${guest == '1' && admin != '1' && classic != '1'}">
 										<a class="btn  btn-sm btn-outline-secondary" href="ShowArticoloServlet?IdDaVisualizzare=<c:out value = "${item.id}"/>&ruoloUtente=<c:out value = "${ruolo}"/>">Visualizza</a>

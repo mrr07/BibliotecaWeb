@@ -128,13 +128,16 @@ public class LibroDAOImpl implements LibroDAO {
 			query = "SELECT l FROM Libro l";
 		}
 		if(valoriNull == 0) {
-			query = "SELECT l FROM Libro l WHERE l.titolo like :titolo "
+			query = "SELECT l FROM Libro l join l.autore a WHERE l.titolo like :titolo "
 					+ "AND l.trama like :trama "
 					+ "AND l.genere like :genere "
-					+ "AND l.autore = :autore ";
+					+ "AND a.id = :autore ";
+			for(int i=1; i<array.length; i++) {
+				array[i] = 1;
+			}
 		}
 		else if(valoriNull != 4 && valoriNull != 0){
-			query = "SELECT l FROM Libro l WHERE ";
+			query = "SELECT l FROM Libro l join fetch l.autore a WHERE ";
 			valoriAnd=3-valoriNull;
 			if(libro.getTitolo() != "" && valoriNull != 0) {
 				query = query.concat("l.titolo like :titolo ");
@@ -162,7 +165,7 @@ public class LibroDAOImpl implements LibroDAO {
 				array[3]=1;
 			}
 			if(libro.getAutore().getId() != null && valoriNull != 0) {
-				query = query.concat("l.autore = :autore ");
+				query = query.concat("a.id = :autore ");
 				array[4]=1;
 			}
 		}
@@ -173,8 +176,7 @@ public class LibroDAOImpl implements LibroDAO {
 		TypedQuery<Libro> query1 = entityManager.createQuery(query, Libro.class);
 		Genere genere = Genere.valueOf(libro.getGenere());
 		
-			int k=1;
-			
+				int k=1;
 				if(array[1] == 1) {
 					if(libro.getTitolo() != "") {
 						query1.setParameter("titolo", "%"+libro.getTitolo()+"%");
@@ -200,8 +202,8 @@ public class LibroDAOImpl implements LibroDAO {
 				}
 				
 				if(array[4] == 1) {
-					if(libro.getAutore() != null) {
-						query1.setParameter("autore", libro.getAutore());
+					if(libro.getAutore().getId() != null) {
+						query1.setParameter("autore", libro.getAutore().getId());
 					}
 					k++;
 					array[4]=0;

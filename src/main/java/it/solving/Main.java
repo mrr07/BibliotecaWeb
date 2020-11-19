@@ -33,7 +33,7 @@ public class Main {
 			Autore autore1 = new Autore("mario", "rossi", "1975-03-12");
 			Autore autore2 = new Autore("federica", "verdi", "1980-09-02");
 			Autore autore3 = new Autore("Julio", "Farias", "1981-08-04");
-			Autore autore4 = new Autore("Julio", "Farias", "1981-08-04");
+			Autore autore4 = new Autore("Julio", "Vegas", "1987-03-12");
 			
 			
 			// ------------------ CREO I LIBRI ----------------------------
@@ -43,6 +43,8 @@ public class Main {
 			Libro libro4 = new Libro("titolo4", Genere.Storico, "trama1", autore2);
 			Libro libro5 = new Libro("titolo5", Genere.Storico, "trama1", autore2);
 			Libro libro6 = new Libro("titolo6", Genere.Thriller, "trama1", autore3);
+			Libro libro7 = new Libro("titolo7", Genere.Thriller, "trama7", autore4);
+			Libro libro8 = new Libro("titolo8", Genere.Thriller, "trama8", autore4);
 			
 			
 			// ------------------- CREO I RUOLI --------------------------
@@ -84,6 +86,7 @@ public class Main {
 			Set<Libro> listaLibriAutore1 = new HashSet<Libro>();
 			Set<Libro> listaLibriAutore2 = new HashSet<Libro>();
 			Set<Libro> listaLibriAutore3 = new HashSet<Libro>();
+			Set<Libro> listaLibriAutore4 = new HashSet<Libro>();
 			
 			listaLibriAutore1.add(libro1);
 			listaLibriAutore1.add(libro2);
@@ -91,27 +94,36 @@ public class Main {
 			listaLibriAutore2.add(libro4);
 			listaLibriAutore2.add(libro5);
 			listaLibriAutore3.add(libro6);
+			listaLibriAutore4.add(libro7);
+			listaLibriAutore4.add(libro8);
 			
 			autore1.setLibri(listaLibriAutore1);
 			autore2.setLibri(listaLibriAutore2);
 			autore3.setLibri(listaLibriAutore3);
+			autore4.setLibri(listaLibriAutore4);
 			
 			
 			// ---------------------INSERISCO GLI AUTORI, I LIBRI E GLI UTENTI NEL DB ----------------------
+			
 			/*
 			autoreService.inserisciNuovo(autore1);
 			autoreService.inserisciNuovo(autore2);
 			autoreService.inserisciNuovo(autore3);
-			*/
+			autoreService.inserisciNuovo(autore4);
 			
-			/*
+			
+			
+			
 			libroService.inserisciNuovo(libro1);
 			libroService.inserisciNuovo(libro2);
 			libroService.inserisciNuovo(libro3);
 			libroService.inserisciNuovo(libro4);
 			libroService.inserisciNuovo(libro5);
 			libroService.inserisciNuovo(libro6);
+			libroService.inserisciNuovo(libro7);
+			libroService.inserisciNuovo(libro8);
 			*/
+			
 			
 			/*
 			utenteService.inserisciNuovo(utente1);
@@ -124,10 +136,14 @@ public class Main {
 			Autore autoreDaDB2 = autoreService.findByID(2L);
 			Autore autoreDaDB3 = autoreService.findByID(3L);
 			
-			Libro libroDaDB = libroService.findByID(1L);
+			//Libro libroDaDB = libroService.findByID(1L);
 			
-			for(Libro l : libroService.findByExample(libroDaDB)) {
-				System.out.println(l);
+			System.out.println(autoreDaDB1.getData_nascita());
+			
+			
+			
+			for(Autore a : autoreService.findByExample(autoreDaDB1)) {
+				System.out.println(a+" "+a.getData_nascita());
 			}
 			
 			
